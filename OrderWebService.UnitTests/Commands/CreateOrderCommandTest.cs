@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Bogus;
 
+using Castle.Core.Logging;
+
 using FluentAssertions;
 
 using MediatR;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 using Moq;
 using OrderWebService.Domain.Commands;
@@ -40,7 +43,7 @@ namespace OrderWebService.UnitTests.Commands
 
             _dateTimeProvider = new Mock<IDateTimeProvider>();
 
-            _handler = new CreateOrderCommandHandler(_dbContext, _dateTimeProvider.Object);
+            _handler = new CreateOrderCommandHandler(_dbContext, _dateTimeProvider.Object, Mock.Of<ILogger<CreateOrderCommandHandler>>());
 
             _faker = new Faker();
         }

@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 using FluentAssertions;
 using System.Net;
 using OrderWebService.Contracts.Http.Responses;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace OrderWebService.IntegrationTests
 {

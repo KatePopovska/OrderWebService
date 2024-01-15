@@ -1,26 +1,29 @@
-﻿
-using MediatR;
+﻿using Microsoft.Extensions.Logging;
 
 using OrderWebService.Domain.Constants;
 using OrderWebService.Domain.Data;
+using OrderWebService.Domain.Handlers;
 using OrderWebService.Domain.Helpers;
 using OrderWebService.Domain.Models;
 using OrderWebService.Domain.Models.Events;
 
 namespace OrderWebService.Domain.Commands
 {
-    internal class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, CreateOrderCommandResult>
+    internal class CreateOrderCommandHandler : BaseHandler<CreateOrderCommand, CreateOrderCommandResult>
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IDateTimeProvider _dateTimeProvider;
+        
 
-        public CreateOrderCommandHandler(ApplicationDbContext dbContext, IDateTimeProvider dateTimeProvider)
+        public CreateOrderCommandHandler(ApplicationDbContext dbContext,
+            IDateTimeProvider dateTimeProvider,
+             ILogger<CreateOrderCommandHandler> logger) : base(logger)        
         {
             _dbContext = dbContext;
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public async Task<CreateOrderCommandResult> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+        protected override async Task<CreateOrderCommandResult> HandleInternal(CreateOrderCommand request, CancellationToken cancellationToken)
         {
             var orderId = Guid.NewGuid();
             var now = _dateTimeProvider.Now;
